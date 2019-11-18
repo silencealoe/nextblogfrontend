@@ -1,0 +1,32 @@
+.header{
+  width:100%;
+  background:#fff;
+  height:3rem;
+  padding:.6rem;
+  border-bottom: 1px solid #eaecef;
+  position: fixed;
+  top:0;
+  left:0;
+  z-index:10;
+}
+.header_title{
+  /* line-height: 3rem; */
+  margin-right: 1rem;
+}
+.header_logo{
+  color:#1e90ff;
+  font-size: 1.4rem;
+  text-align: left;
+  font-weight: bold;
+}
+.header_text{
+  color:#666;
+  font-size: .8rem;
+}
+.header_menu{
+  height:2.2rem;
+}
+.ant-menu-horizontal{
+  line-height: 2.2rem;
+  border-bottom: none;
+}
