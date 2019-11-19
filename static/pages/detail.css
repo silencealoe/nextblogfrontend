@@ -1,0 +1,25 @@
+.detail-content{
+  padding:1rem;
+}
+.detail-title{
+  text-align: center;
+  font-size: 1.4rem;
+  padding:1rem;
+}
+.center{
+  text-align: center;
+}
+.detail-nav-title{
+  color:#666;
+  font-size:1rem;
+  cursor: default;
+}
+.detail-nav{
+  width:100%;
+  padding:1rem;
+  background: #fff;
+  margin:1rem 0;
+}
+.nav-list{
+  font-size: .8rem;
+}
