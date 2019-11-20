@@ -1,5 +1,6 @@
 import React from 'react'
 import Head from 'next/head'
+import {withRouter} from 'next/router'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Author from '../components/Author'
@@ -10,7 +11,8 @@ import MarkNav from 'markdown-navbar'
 import 'markdown-navbar/dist/navbar.css'
 import '../static/pages/detail.css'
 
-const Details=()=>{
+const Details=({router})=>{
+  console.log(router.query.id)
   let markdown='# P01:课程介绍和环境搭建\n' +
   '[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  \n' +
   '> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已... \n\n' +
@@ -79,7 +81,7 @@ const Details=()=>{
        
           <Advert/>
           <Affix offsetTop={50}>
-          <div class="detail-nav">
+          <div className="detail-nav">
             <h2 className="detail-nav-title">
             <Icon type="book"/>
               文章目录
@@ -101,4 +103,4 @@ const Details=()=>{
     </div>
   )
 }
-export default Details
+export default withRouter(Details)
