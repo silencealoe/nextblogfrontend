@@ -6,48 +6,39 @@ import Footer from '../components/Footer'
 import Author from '../components/Author'
 import Advert from '../components/Advert'
 import {Row,Col,Icon,Breadcrumb,Affix} from 'antd'
-import ReactMarkdown from 'react-markdown'
-import MarkNav from 'markdown-navbar'
+import marked from 'marked'
+import highlight from 'highlight.js'
+import 'highlight.js/styles/monokai-sublime.css'
 import 'markdown-navbar/dist/navbar.css'
 import '../static/pages/detail.css'
+import axios from 'axios'
 
-const Details=({router})=>{
-  console.log(router.query.id)
-  let markdown='# P01:课程介绍和环境搭建\n' +
-  '[ **M** ] arkdown + E [ **ditor** ] = **Mditor**  \n' +
-  '> Mditor 是一个简洁、易于集成、方便扩展、期望舒服的编写 markdown 的编辑器，仅此而已... \n\n' +
-   '**这是加粗的文字**\n\n' +
-  '*这是倾斜的文字*`\n\n' +
-  '***这是斜体加粗的文字***\n\n' +
-  '~~这是加删除线的文字~~ \n\n'+
-  '\`console.log(111)\` \n\n'+
-  '# p02:来个Hello World 初始Vue3.0\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n'+
-  '>>>> <div>123</div>'+
-  '***\n\n\n' +
-  '# p03:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p04:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '#5 p05:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p06:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '# p07:Vue3.0基础知识讲解\n' +
-  '> aaaaaaaaa\n' +
-  '>> bbbbbbbbb\n' +
-  '>>> cccccccccc\n\n'+
-  '``` var a=11; ```'
+const Details=(props)=>{
+  // console.log(router.query.id)
+  console.log(props)
+  const renderer = new marked.Renderer()
+  marked.setOptions({
+    //这个是必须填写的，你可以通过自定义的Renderer渲染出自定义的格式
+    renderer: renderer,
+    //启动类似Github样式的Markdown,填写true或者false
+    gfm:true,
+    // 只解析符合Markdown定义的，不修正Markdown的错误。填写true或者false
+    pedantic:false,
+    // 原始输出，忽略HTML标签，这个作为一个开发人员，一定要写flase
+    sanitize:false,
+    // 支持Github形式的表格，必须打开gfm选项
+    tables:true,
+    // 支持Github换行符，必须打开gfm选项，填写true或者false
+    breaks:false,
+    // 优化列表输出，这个填写ture之后，你的样式会好看很多，所以建议设置成ture
+    smartLists:true,
+    smartypants:false,
+    // 高亮显示规则 ，这里我们将使用highlight.js来完成
+    highlight:function(code){
+      return highlight.highlightAuto(code).value
+    }
+  })
+  let html = marked(props.data["0"].content)
   return(
     <div>
       <Head>
@@ -59,26 +50,25 @@ const Details=({router})=>{
        <Col xs={24} sm={24} md={24} lg={23} xl={18}>
         <Breadcrumb>
           <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
+          <Breadcrumb.Item href="/list">list</Breadcrumb.Item>
           <Breadcrumb.Item href="/detail">detail</Breadcrumb.Item>
         </Breadcrumb>
         </Col>
      </Row>
       <Row className="list-main" justify="center" type="flex">
         <Col  className="commom-left" xs={24} sm={24} md={24} lg={15} xl={14}>
-          <div className="detail-title"> React实战视频教程</div>
+          <div className="detail-title"> {props.data["0"].title}</div>
           <div className="list-icon center">
-            <span><Icon type="calendar" /> 2019-06-28   </span>
-            <span><Icon type="folder" /> 视频教程   </span>
-            <span><Icon type="fire" /> 5498人</span>
+            <span><Icon type="calendar" />{props.data["0"].add_time.slice(0,10)} </span>
+            <span><Icon type="folder" />{props.data["0"].typeName} </span>
+            <span><Icon type="fire" /> {props.data["0"].viewcount}人</span>
           </div>
-          <div className="detail-content">
-            <ReactMarkdown source={markdown} escapeHtml={false}/>
-
+          <div className="detail-content" dangerouslySetInnerHTML={{__html:html}}>
+            {/* <ReactMarkdown source={props.data["0"].content} escapeHtml={false}/> */}
           </div>
         </Col>
         <Col className="commom-right" xs={0} sm={0} md={0} lg={8} xl={4}>
           <Author/>
-       
           <Advert/>
           <Affix offsetTop={50}>
           <div className="detail-nav">
@@ -86,21 +76,29 @@ const Details=({router})=>{
             <Icon type="book"/>
               文章目录
             </h2>
-            <MarkNav
+            {/* <MarkNav
               className="nav-list"
-              source={markdown}
+              source={}
               ordered={false}
-            />
+            /> */}
           </div>
           </Affix>
         </Col>
       </Row>
-        
-       
       </div>
       <Footer/>
-
     </div>
   )
+}
+Details.getInitialProps=async (context)=>{
+  console.log(context.query)
+  const promise = new Promise((resolve)=>{
+    axios.get('http://127.0.0.1:7001/getArticalById/'+context.query.id).then(res=>{
+      console.log(res.data)
+      resolve(res.data)
+    })
+  })
+  return await promise
+  
 }
 export default withRouter(Details)

@@ -11,9 +11,12 @@ import '../static/pages/list.css'
 
 const Lists=(lists)=>{
   const [list,setlist]=useState(lists.data)
-  console.log(list)
-  return (
-    <div>
+  // const [win,setwin]=useState({
+    //   window:document.documentElement.clientHeight
+    // })
+    // console.log(win.window)
+    return (
+      <div>
       <Head>
         <title>list</title>
       </Head>
@@ -39,9 +42,9 @@ const Lists=(lists)=>{
                   </Link>
                   <p className="list-date">
                     <span>发表于 {item.addtime}</span>
-                    <span> 阅读{item.viewcount}</span>
+                    <span> 阅读  {item.viewcount}</span>
                   </p>
-                  <div className="list-content">{item.content}</div>
+                  <div className="list-content">{item.introduce}</div>
                 </List.Item>
               )}
             />
@@ -56,6 +59,13 @@ const Lists=(lists)=>{
   )
 }
 Lists.getInitialProps=async ()=>{
+  // let window=document.documentElement
+  // if(window.history&&window.history.pushState){
+  //   window.onpopstate=()=>{
+  //     window.history.pushState('forward', null, ''); 
+  //     window.history.forward(1);
+  //   }
+  // }
   const promise = new Promise((resolve)=>{
     axios.get('http://127.0.0.1:7001/getArtical').then(res=>{
       console.log('ok',res.data) 
