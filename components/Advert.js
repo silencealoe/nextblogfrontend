@@ -12,9 +12,6 @@ const Advert=()=>{
         <li>
           <img src="http://blogimages.jspang.com/WechatIMG12.jpeg" alt="wechat" width="100%"/>
         </li>
-        <li>
-          <img src="https://jspang.com/images/ad_4.jpg" alt="react" width="100%"/>
-        </li>
       </ul>
       
     </div>

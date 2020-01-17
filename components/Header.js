@@ -14,7 +14,7 @@ const Header=()=>(
   <div>
       <Row type="flex" justify="center" className="header">
         <Col className="header_title" xs={24} sm={24} md={24} lg={15} xl={14}>
-            <span className="header_logo">掘金</span>
+            <a href="/index"><span className="header_logo">掘金</span></a>
             <span className="header_text">一个帮助开发者成长的社区</span>
         </Col>
         <Col  xs={0} sm={0} md={0} lg={8} xl={4}>

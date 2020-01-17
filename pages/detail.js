@@ -11,12 +11,18 @@ import highlight from 'highlight.js'
 import 'highlight.js/styles/monokai-sublime.css'
 import 'markdown-navbar/dist/navbar.css'
 import '../static/pages/detail.css'
+import Tocify from '../components/tocify.tsx'
 import axios from 'axios'
 
 const Details=(props)=>{
   // console.log(router.query.id)
   console.log(props)
   const renderer = new marked.Renderer()
+  const tocify = new Tocify()
+  renderer.heading = function(text, level, raw) {
+      const anchor = tocify.add(text, level);
+      return `<a id="${anchor}" href="#${anchor}" class="anchor-fix"><h${level}>${text}</h${level}></a>\n`;
+    };
   marked.setOptions({
     //这个是必须填写的，你可以通过自定义的Renderer渲染出自定义的格式
     renderer: renderer,
@@ -76,11 +82,9 @@ const Details=(props)=>{
             <Icon type="book"/>
               文章目录
             </h2>
-            {/* <MarkNav
-              className="nav-list"
-              source={}
-              ordered={false}
-            /> */}
+            <div className="nav-list">
+              {tocify && tocify.render()}
+            </div>
           </div>
           </Affix>
         </Col>
