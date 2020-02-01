@@ -2,7 +2,7 @@
   width:100%;
   background:#fff;
   height:3rem;
-  padding:.6rem;
+  padding:0 .6rem;
   border-bottom: 1px solid #eaecef;
   position: fixed;
   top:0;
@@ -10,7 +10,7 @@
   z-index:10;
 }
 .header_title{
-  /* line-height: 3rem; */
+  line-height: 3rem;
   margin-right: 1rem;
 }
 .header_logo{
@@ -25,9 +25,13 @@
   font-size: .8rem;
 }
 .header_menu{
-  height:2.2rem;
+  /* height:2rem; */
 }
-.ant-menu-horizontal{
-  line-height: 2.2rem;
+ul.ant-menu-horizontal{
+  /* line-height: .5rem; */
   border-bottom: none;
+}
+.header_menu li.ant-menu-item{
+  /* padding: 0; */
+  /* height: 1.6rem; */
 }

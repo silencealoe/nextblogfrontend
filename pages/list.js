@@ -1,24 +1,28 @@
-import React,{useState}from 'react';
-import Head from 'next/head'  //配置head信息
+import React, { useState, useEffect } from 'react';
+import Head from 'next/head'
 import Link from 'next/link'
 import Header from '../components/Header'
 import Footer from '../components/Footer'
 import Author from '../components/Author'
 import Advert from '../components/Advert'
 import {Row,Col,List,Breadcrumb} from 'antd'
-import axios from 'axios'
 import '../static/pages/list.css'
+import 'antd/dist/antd.css'
+import axios from 'axios'
 import servicePath from '../config/api'
-
-const Index=(lists)=>{
-  const [list,setlist]=useState(lists.data)
-    return (
-      <div>
+const TypeLists = (datalist) => {
+  const [list,setlist]=useState(datalist.data)
+  console.log('list', list);
+  useEffect(()=>{
+    setlist(datalist.data)
+  })
+  return (
+    <div>
       <Head>
-        <title>掘金</title>
+        <title>list</title>
       </Head>
       <Header/>
-     <Row type="flex" justify="center">
+      <Row type="flex" justify="center">
        <Col xs={24} sm={24} md={24} lg={23} xl={18}>
         <Breadcrumb>
           <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
@@ -55,14 +59,15 @@ const Index=(lists)=>{
     </div>
   )
 }
-Index.getInitialProps=async ()=>{
+TypeLists.getInitialProps = async (context) => {
+  console.log('content', context)
+  const id = context.query.id
   const promise = new Promise((resolve)=>{
-    axios.get(servicePath.getArtical).then(res=>{
-      // console.log('ok',res.data) 
+    axios.get(servicePath.getListById + id).then(res=>{
+      console.log('res', res.data)
       resolve(res.data)
     })
-
   })
   return await promise
 }
-export default Index
+export default TypeLists

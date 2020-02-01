@@ -13,6 +13,7 @@ import 'markdown-navbar/dist/navbar.css'
 import '../static/pages/detail.css'
 import Tocify from '../components/tocify.tsx'
 import axios from 'axios'
+import servicePath from '../config/api'
 
 const Details=(props)=>{
   // console.log(router.query.id)
@@ -97,8 +98,8 @@ const Details=(props)=>{
 Details.getInitialProps=async (context)=>{
   console.log(context.query)
   const promise = new Promise((resolve)=>{
-    axios.get('http://127.0.0.1:7001/getArticalById/'+context.query.id).then(res=>{
-      console.log(res.data)
+    axios.get(servicePath.getArticalById + context.query.id).then(res=>{
+      // console.log(res.data)
       resolve(res.data)
     })
   })
